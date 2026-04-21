@@ -3,9 +3,11 @@ import JobDescription from "./components/JobDescription"
 import { useCallback, useReducer } from "react"
 import type { ChangeEvent } from "react"
 import { initialState, reducer } from "./store/formReducer"
+import useFileParser from "./hooks/useFileParser"
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const {text, loading, error} = useFileParser(state.resume)
 
   const handleJdChange = useCallback((e : ChangeEvent<HTMLTextAreaElement>) => {
     dispatch({type : 'JOB_DESCRIPTION', content : e.target.value})
@@ -20,7 +22,10 @@ function App() {
     <div className="flex gap-10 h-screen">
       <ResumeSection 
           header="Resume" 
-          setFile={handleResumeFileChange}>
+          setFile={handleResumeFileChange}
+          parsedText={text}
+          error={error}
+          loading={loading}>
         {state.resume ? state.resume.name : 'No file yet'}
       </ResumeSection>
       <JobDescription 
