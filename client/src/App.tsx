@@ -5,9 +5,9 @@ import JobDescription from "./components/JobDescription"
 function App() {
 
   return (
-    <div className="flex gap-10">
-      <ResumeSection />
-      <JobDescription />
+    <div className="flex gap-10 h-screen">
+      <ResumeSection header="Resume">Upload your resume here</ResumeSection>
+      <JobDescription header="Job description">Paste your job description heres</JobDescription>
     </div>
   )
 }

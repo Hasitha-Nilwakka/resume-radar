@@ -1,7 +1,15 @@
-export default function ResumeSection() {
+import type {ReactNode} from "react"
+
+interface Props {
+    header? : string
+    children? : ReactNode
+}
+
+export default function ResumeSection({header, children} : Props) {
     return (
-        <div className="w-[45%] bg-gray-200">
-            <h1>Resume Section</h1>
+        <div className="flex-1 bg-gray-200 h-full">
+            <h1>{header}</h1>
+            <p>{children}</p>
         </div>
     )
 }
