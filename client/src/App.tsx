@@ -1,13 +1,33 @@
 import ResumeSection from "./components/ResumeSection"
 import JobDescription from "./components/JobDescription"
-
+import { useCallback, useReducer } from "react"
+import type { ChangeEvent } from "react"
+import { initialState, reducer } from "./store/formReducer"
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const handleJdChange = useCallback((e : ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch({type : 'JOB_DESCRIPTION', content : e.target.value})
+  }, [])
+
+  const handleResumeFileChange = useCallback((e : ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null
+    dispatch({type : 'RESUME_FILE', content : file})
+  }, [])
 
   return (
     <div className="flex gap-10 h-screen">
-      <ResumeSection header="Resume">Upload your resume here</ResumeSection>
-      <JobDescription header="Job description">Paste your job description heres</JobDescription>
+      <ResumeSection 
+          header="Resume" 
+          setFile={handleResumeFileChange}>
+        {state.resume ? state.resume.name : 'No file yet'}
+      </ResumeSection>
+      <JobDescription 
+          header="Job description" 
+          textChange={handleJdChange}>
+        {state.description}
+      </JobDescription>
     </div>
   )
 }
