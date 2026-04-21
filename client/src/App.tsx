@@ -1,9 +1,14 @@
+import ResumeSection from "./components/ResumeSection"
+import JobDescription from "./components/JobDescription"
+
+
 function App() {
 
   return (
-    <>
-      <h1 className="bg-red-300">ResumeRadar</h1>
-    </>
+    <div className="flex gap-10">
+      <ResumeSection />
+      <JobDescription />
+    </div>
   )
 }
 
