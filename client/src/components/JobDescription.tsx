@@ -1,15 +1,20 @@
-import type { ReactNode } from "react"
+import type { ChangeEvent } from "react"
 
-interface Props {
+interface JdSectionProps {
     header? : string
-    children? : ReactNode
+    children? : string
+    textChange : (e : ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-export default function JobDescription({header, children} : Props) {
+export default function JobDescription({header, children, textChange} : JdSectionProps) {
     return (
         <div className="flex-1 bg-gray-200 h-full">
             <h1>{header}</h1>
-            <p>{children}</p>
+            <textarea 
+                className="border bg-white" 
+                value={children} 
+                onChange={textChange}
+            ></textarea>
         </div>
     )
 }

@@ -1,14 +1,21 @@
-import type {ReactNode} from "react"
+import type { ChangeEvent } from "react"
 
-interface Props {
-    header? : string
-    children? : ReactNode
+interface ResumeSectionProps {
+    header : string
+    children : string
+    setFile : (e : ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function ResumeSection({header, children} : Props) {
+export default function ResumeSection({header, children, setFile} : ResumeSectionProps) {
     return (
         <div className="flex-1 bg-gray-200 h-full">
             <h1>{header}</h1>
+            <input 
+                type="file" 
+                className="border bg-white" 
+                accept=".pdf, .doc, .docx"
+                onChange={setFile}
+            />
             <p>{children}</p>
         </div>
     )
