@@ -16,7 +16,7 @@ export default function ResumeSection({header, children, parsedText, error, load
             <input 
                 type="file" 
                 className="border bg-white" 
-                accept=".pdf, .doc, .docx"
+                accept=".pdf, .docx"
                 onChange={setFile}
             />
             {loading && <p>Loading...</p>}
