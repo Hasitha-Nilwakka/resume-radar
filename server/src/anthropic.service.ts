@@ -27,7 +27,7 @@ export const analyzeResume = async (resumeText : string, jobDescription : string
     })
 
     const raw = response.content[0]
-    if (raw.type !== 'text') throw new Error('Unexpected respose type')
+    if (raw?.type !== 'text') throw new Error('Unexpected respose type')
     const parsed = JSON.parse(raw.text)
     return parsed
 }

@@ -4,7 +4,7 @@ import { analyzeResume } from "./anthropic.service"
 import type { AnalyzerRequest, AnalyzerResponse } from "./types"
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3001
 const corsOptions : CorsOptions = {
     origin : 'http://localhost:5173',
     optionsSuccessStatus : 200
