@@ -29,8 +29,9 @@ export default function useAnalyzer(input : AnalyzerInput) : AnalyzerResult {
     const [state, setState] = useState(initialState)
 
     const analyze = async () => {
-        if (!input) {
+        if (!input.resumeText || !input.jobDescription) {
             setState(prev => ({...prev, error : 'Please upload a resume and enter a job description'}))
+            return
         }
         try {
             setState(prev => ({...prev, loading : true}))

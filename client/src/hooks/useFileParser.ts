@@ -10,12 +10,14 @@ interface FileParserResults {
     text : string
     loading : boolean
     error : string | null
+    fileType : string | null
 }
 
 const initialState : FileParserResults = {
     text : '',
     loading : false,
-    error : null
+    error : null,
+    fileType : null
 }
 
 const SUPPORT_TYPES = {
@@ -24,7 +26,7 @@ const SUPPORT_TYPES = {
 } as const
 
 type ACTION_TYPE = 
-    | {type : 'SET_TEXT', content : string}
+    | {type : 'SET_TEXT', content : string, fileType : string | null}
     | {type : 'SET_LOADING', content : boolean}
     | {type : 'SET_ERROR', content : string | null}
     | {type : 'RESET'}
@@ -32,7 +34,7 @@ type ACTION_TYPE =
 function reducer(state : FileParserResults, action : ACTION_TYPE) : FileParserResults {
     switch(action.type) {
         case 'SET_TEXT' : {
-            return {...state, text : action.content}
+            return {...state, text : action.content, fileType : action.fileType}
         } case 'SET_LOADING' : {
             return {...state, loading : action.content}
         } case 'SET_ERROR' : {
@@ -74,12 +76,12 @@ export default function useFileParser(input : File | null) : FileParserResults  
                         fullText += pageText + "\n"
                     }
                     
-                    dispatch({type : 'SET_TEXT' , content : fullText})
+                    dispatch({type : 'SET_TEXT' , content : fullText, fileType : 'pdf'})
 
                 } catch(err : unknown) {
                     if (err instanceof Error) {
                         dispatch({type : 'SET_ERROR', content : err.message || 'Failed to read PDF'})
-                        dispatch({type : 'SET_TEXT', content : ''})
+                        dispatch({type : 'SET_TEXT', content : '', fileType : null})
                     }
                 } finally {
                     dispatch({type : 'SET_LOADING', content : false})
@@ -92,11 +94,11 @@ export default function useFileParser(input : File | null) : FileParserResults  
                 try {
                     const arrayBuffer = await input.arrayBuffer()
                     const result = await mammoth.extractRawText({arrayBuffer : arrayBuffer})
-                    dispatch({type : 'SET_TEXT' , content : result.value})
+                    dispatch({type : 'SET_TEXT' , content : result.value, fileType : 'docx'})
                 }catch (err : unknown) {
                     if (err instanceof Error) {
                         dispatch({type : 'SET_ERROR', content : err.message || 'Failed to read the document'})
-                        dispatch({type : 'SET_TEXT', content : ''})
+                        dispatch({type : 'SET_TEXT', content : '', fileType : null})
                     }
                 } finally {
                     dispatch({type : 'SET_LOADING', content : false})
@@ -110,5 +112,5 @@ export default function useFileParser(input : File | null) : FileParserResults  
         
     }, [input])
 
-    return {text : state.text , loading : state.loading , error : state.error}
+    return {text : state.text , loading : state.loading, fileType : state.fileType , error : state.error}
 }
