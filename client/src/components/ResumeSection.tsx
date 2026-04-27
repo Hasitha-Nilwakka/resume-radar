@@ -1,17 +1,18 @@
-import type { ChangeEvent } from "react"
+import { type ChangeEvent, type ReactNode } from "react"
 import resumeIcon from '../assets/document-icon.svg'
 import darkResumeIcon from '../assets/darkmode/dark-document-icon.svg'
+import { useTheme } from "../context/ThemeContext"
 
 interface ResumeSectionProps {
     header : string
-    children : React.ReactNode
+    children : ReactNode
     error : string | null
     loading : boolean
     setFile : (e : ChangeEvent<HTMLInputElement>) => void
-    darkMode : boolean
 }
 
-export default function ResumeSection({header, children, error, loading, setFile, darkMode} : ResumeSectionProps) {
+export default function ResumeSection({header, children, error, loading, setFile} : ResumeSectionProps) {
+    const {darkMode} = useTheme()
     return (
         <div 
             className="

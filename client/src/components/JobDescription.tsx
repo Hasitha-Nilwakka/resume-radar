@@ -1,15 +1,16 @@
-import type { ChangeEvent } from "react"
+import { type ChangeEvent } from "react"
 import jdIcon from '../assets/jd-icon.svg'
 import darkJdIcon from '../assets/darkmode/dark-jd-icon.svg'
+import { useTheme } from "../context/ThemeContext"
 
 interface JdSectionProps {
     header? : string
     children? : string
     textChange : (e : ChangeEvent<HTMLTextAreaElement>) => void
-    darkMode : boolean
 }
 
-export default function JobDescription({header, children, textChange, darkMode} : JdSectionProps) {
+export default function JobDescription({header, children, textChange} : JdSectionProps) {
+    const {darkMode} = useTheme()
     return (
         <div 
             className="

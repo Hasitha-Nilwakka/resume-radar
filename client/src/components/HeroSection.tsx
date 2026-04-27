@@ -4,12 +4,10 @@ import seeAnalyzeIcon from '../assets/see-an-icon.svg'
 import uploadIcon from '../assets/upload-icon.svg'
 import heroImageLight from '../assets/heroImage-light.png'
 import heroImageDark from '../assets/darkmode/dark-heroimage.png'
+import { useTheme } from '../context/ThemeContext'
 
-interface HeroImageProps {
-    darkMode : boolean
-}
-
-export default function HeroSection({darkMode} : HeroImageProps) {
+export default function HeroSection() {
+    const {darkMode} = useTheme()
     const divStyle : string = 'flex gap-2 items-center'
     const lineStyle : string = 'font-semibold xl:text-lg'
     return (

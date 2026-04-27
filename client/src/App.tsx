@@ -1,6 +1,6 @@
 import ResumeSection from "./components/ResumeSection"
 import JobDescription from "./components/JobDescription"
-import { useCallback, useReducer } from "react"
+import { useCallback, useReducer} from "react"
 import type { ChangeEvent } from "react"
 import { initialState, reducer } from "./store/formReducer"
 import useFileParser from "./hooks/useFileParser"
@@ -12,6 +12,7 @@ import ScanningOverlay from "./components/ScanningOverlay"
 import pdfIcon from './assets/pdf-icon.svg'
 import docxIcon from './assets/docx-icon.svg'
 import AnalyzeButton from "./components/AnalyzeButton"
+
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -27,17 +28,13 @@ function App() {
     dispatch({type : 'RESUME_FILE', content : file})
   }, [])
 
-  const flipDarkMode = useCallback(() => {
-    dispatch({type : 'SET_THEME'})
-  }, [])
-
   return (
     <div className="2xl:w-[80%] mx-auto bg-white dark:bg-black pb-20 min-h-screen">
       <div>
-        <NavBar darkMode={state.darkMode} flipTheme={flipDarkMode}/>
+        <NavBar/>
       </div>
       <div className="mx-auto">
-          <HeroSection darkMode={state.darkMode}/>
+          <HeroSection/>
       </div>
       <div className="bg-purple-50 py-5 md:flex md:w-full md:gap-3 md:px-4 lg:px-7 dark:bg-black transition-transform duration-300">
           <div className="md:flex md:w-full">
@@ -45,8 +42,7 @@ function App() {
               header="Upload your resume here" 
               setFile={handleResumeFileChange}
               error={error}
-              loading={loading}
-              darkMode={state.darkMode}>
+              loading={loading}>
               {state.resume ? 
                 <div className="flex gap-2 justify-between px-2">
                   <div className="flex">
@@ -61,20 +57,19 @@ function App() {
           <div className="md:flex md:w-full">
             <JobDescription 
               header="Insert job description here" 
-              textChange={handleJdChange}
-              darkMode={state.darkMode}>
+              textChange={handleJdChange}>
             {state.description}
             </JobDescription>
           </div>
         </div>
       <div>
       <AnalyzeButton analyze={analyze}/>
-        {analyzeError && <p>An error occured while handling your request, please try again</p>}
+        {analyzeError && <p className="text-red-500">An error occured while handling your request, please try again</p>}
         {analyzerLoading? 
           <div className="fixed inset-0 w-screen h-screen bg-white/90 dark:bg-black transition-colors duration-300 z-55 flex justify-center items-center">
             <ScanningOverlay/>
           </div>
-          : result ? <ResultPanel analyzerResponse={{...result}} darkMode={state.darkMode}/> : null}
+          : result ? <ResultPanel {...result}/> : null}
       </div>
     </div>
   )

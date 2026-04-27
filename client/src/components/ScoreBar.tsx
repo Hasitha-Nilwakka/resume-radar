@@ -62,7 +62,7 @@ const ScoreBar: React.FC<ScoreBarProps> = ({ score }) => {
         textAlign: 'center',
         fontFamily: 'sans-serif'
       }}>
-        <span style={{ fontSize: '28px', fontWeight: 'bold' }} className='dark:text-white'>{normalizedScore}</span>
+        <span style={{ fontSize: '28px'}} className='dark:text-white font-bold'>{normalizedScore}</span>
         <span style={{ fontSize: '20px'}} className='text-[#666] dark:text-white/70'> / 100</span>
       </div>
     </div>

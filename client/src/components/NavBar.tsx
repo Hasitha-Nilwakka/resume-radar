@@ -16,14 +16,12 @@ import { useState } from 'react'
 import hamburgIcon from '../assets/hamburg.svg'
 import darkHamburg from '../assets/darkmode/dark-hamburg.svg'
 import MobileNav from './MobileNav'
+import { useTheme } from '../context/ThemeContext'
 
-interface NavBarProps {
-    darkMode : boolean
-    flipTheme : () => void
-}
 
-export default function NavBar({flipTheme, darkMode} : NavBarProps) {
+export default function NavBar() {
     const [hidden, setHidden] = useState(true)
+    const {darkMode, flipDarkMode} = useTheme()
 
     const btnStyle : string = `
         text-theme-pink dark:text-dark-bright-green
@@ -41,7 +39,8 @@ export default function NavBar({flipTheme, darkMode} : NavBarProps) {
             className='mt-5 mb-3 lg:w-50 xl:w-60 2xl:w-75'>
                 <source media='(min-width: 1024px)' srcSet={!darkMode ? desktopLogo : darkDesktopLogo} />
                 <source media='(min-width: 768px)' srcSet={!darkMode ? tabLogo : darkTabLogo}/>
-                <img src={!darkMode ? mobileLogo : darkMobileLogo}/>
+                <img src={!darkMode ? mobileLogo : darkMobileLogo} 
+                    alt='main logo of the app, contains images of illutrated radar, resume and text resume-radar. slogan says, AI powered resume scanner'/>
             </picture>
             <div className='hidden lg:flex lg:text-sm lg:font-semibold lg:gap-4 xl:text-lg justify-center '>
                 <button className={btnStyle}>
@@ -64,7 +63,7 @@ export default function NavBar({flipTheme, darkMode} : NavBarProps) {
                 </button>
                 <button 
                     className={btnStyle}
-                    onClick={() => flipTheme()}>
+                    onClick={() => flipDarkMode()}>
                     <div className={divStyle}>
                         <img src={!darkMode ? darkModeIcon : lightModeIcon} alt="small red dark and light icon" className='h-7 w-7 transition-transform duration-300'/>
                         <p>{!darkMode ? 'Dark Mode' : 'Light Mode'}</p>
@@ -79,7 +78,7 @@ export default function NavBar({flipTheme, darkMode} : NavBarProps) {
                     hover:scale-105 transition'>
                     <img src={!darkMode ? hamburgIcon : darkHamburg} alt='icon of the mobile menue' onClick={() => setHidden(false)}/>
                 </div>
-                <MobileNav hidden={hidden} setHidden={setHidden} darkMode={darkMode} setColorMode={flipTheme}/>
+                <MobileNav hidden={hidden} setHidden={setHidden}/>
             </div>
         </div>
     )

@@ -6,15 +6,15 @@ import reportIcon from '../assets/report-icon.svg'
 import darkReportIcon from '../assets/darkmode/dark-report-icon.svg'
 import lightModeIcon from '../assets/light-mode-icon.svg'
 import darkModeIcon from '../assets/dark-mode-icon.svg'
+import { useTheme } from '../context/ThemeContext'
 
 interface MobileNavProps {
     hidden : boolean,
     setHidden : (e : boolean) => void
-    darkMode : boolean,
-    setColorMode : () => void
 }
 
-export default function MobileNav({hidden, setHidden, setColorMode, darkMode} : MobileNavProps) {
+export default function MobileNav({hidden, setHidden} : MobileNavProps) {
+    const {darkMode, flipDarkMode} = useTheme()
 
     const btnStyle : string = `
         text-theme-pink dark:text-dark-bright-green text-lg font-semibold
@@ -68,7 +68,7 @@ export default function MobileNav({hidden, setHidden, setColorMode, darkMode} : 
                     </button>
                     <button 
                     className={`${btnStyle} py-3.5`}
-                    onClick={setColorMode}>
+                    onClick={flipDarkMode}>
                     <div className={divStyle}>
                         <img src={!darkMode ? darkModeIcon : lightModeIcon} alt="small red dark and light icon" className='h-7 w-7'/>
                         <p>{!darkMode ? 'Dark Mode' : 'Light Mode'}</p>
