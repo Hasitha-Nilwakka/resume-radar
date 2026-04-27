@@ -6,8 +6,6 @@ import darkTabLogo from '../assets/darkmode/dark-logo-tab.svg'
 import darkMobileLogo from '../assets/darkmode/dark-logo-mobile.svg'
 import codeIcon from '../assets/code-icon.svg'
 import darkCodeIcon from '../assets/darkmode/dark-code-icon.svg'
-import settingsIcon from '../assets/settings-icon.svg'
-import darkSettingsIcon from '../assets/darkmode/dark-settings-icon.svg'
 import reportIcon from '../assets/report-icon.svg'
 import darkReportIcon from '../assets/darkmode/dark-report-icon.svg'
 import darkModeIcon from '../assets/dark-mode-icon.svg'
@@ -18,8 +16,11 @@ import darkHamburg from '../assets/darkmode/dark-hamburg.svg'
 import MobileNav from './MobileNav'
 import { useTheme } from '../context/ThemeContext'
 
+interface NavBarProps {
+    showReport : () => void
+}
 
-export default function NavBar() {
+export default function NavBar({showReport} : NavBarProps) {
     const [hidden, setHidden] = useState(true)
     const {darkMode, flipDarkMode} = useTheme()
 
@@ -43,19 +44,15 @@ export default function NavBar() {
                     alt='main logo of the app, contains images of illutrated radar, resume and text resume-radar. slogan says, AI powered resume scanner'/>
             </picture>
             <div className='hidden lg:flex lg:text-sm lg:font-semibold lg:gap-4 xl:text-lg justify-center '>
-                <button className={btnStyle}>
+                <a className={btnStyle} href='https://github.com/Hasitha-Nilwakka/resume-radar' target='_blank'>
                     <div className={divStyle}>
                         <img src={!darkMode ? codeIcon : darkCodeIcon} alt="small red code icon" className={imgStyle}/>
                         <p>Code / GitHub</p>
                     </div>
-                </button>
-                <button className={btnStyle}>
-                    <div className={divStyle}>
-                        <img src={!darkMode ? settingsIcon : darkSettingsIcon} alt="small red settings icon" className={imgStyle}/>
-                        <p>How it work</p>
-                    </div>
-                </button>
-                <button className={btnStyle}>
+                </a>
+                <button 
+                    className={btnStyle}
+                    onClick={showReport}>
                     <div className={divStyle}>
                         <img src={!darkMode ? reportIcon : darkReportIcon} alt="small res report icon" className={imgStyle}/>
                         <p>Sample report</p>
@@ -78,7 +75,7 @@ export default function NavBar() {
                     hover:scale-105 transition'>
                     <img src={!darkMode ? hamburgIcon : darkHamburg} alt='icon of the mobile menue' onClick={() => setHidden(false)}/>
                 </div>
-                <MobileNav hidden={hidden} setHidden={setHidden}/>
+                <MobileNav hidden={hidden} shwoModel={showReport} setHidden={setHidden}/>
             </div>
         </div>
     )

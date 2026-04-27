@@ -1,7 +1,5 @@
 import codeIcon from '../assets/code-icon.svg'
 import darkCodeIcon from '../assets/darkmode/dark-code-icon.svg'
-import settingsIcon from '../assets/settings-icon.svg'
-import darkSettingsIcon from '../assets/darkmode/dark-settings-icon.svg'
 import reportIcon from '../assets/report-icon.svg'
 import darkReportIcon from '../assets/darkmode/dark-report-icon.svg'
 import lightModeIcon from '../assets/light-mode-icon.svg'
@@ -11,9 +9,10 @@ import { useTheme } from '../context/ThemeContext'
 interface MobileNavProps {
     hidden : boolean,
     setHidden : (e : boolean) => void
+    shwoModel : () => void
 }
 
-export default function MobileNav({hidden, setHidden} : MobileNavProps) {
+export default function MobileNav({hidden, setHidden, shwoModel} : MobileNavProps) {
     const {darkMode, flipDarkMode} = useTheme()
 
     const btnStyle : string = `
@@ -48,19 +47,15 @@ export default function MobileNav({hidden, setHidden} : MobileNavProps) {
                             transition-colors duration-300
                             bg-clip-text text-transparent text-3xl font-bold"
                     >Resume-Analyzer</p>
-                    <button className={btnStyle}>
+                    <a className={btnStyle} href='https://github.com/Hasitha-Nilwakka/resume-radar' target='_blank'>
                         <div className={divStyle}>
                             <img src={!darkMode ? codeIcon : darkCodeIcon} alt="small red code icon" className='h-10 w-10'/>
                             <p>Code / GitHub</p>
                         </div>
-                    </button>
-                    <button className={btnStyle}>
-                        <div className={divStyle}>
-                            <img src={!darkMode ? settingsIcon : darkSettingsIcon} alt="small red settings icon" className='h-10 w-10'/>
-                            <p>How it work</p>
-                        </div>
-                    </button>
-                    <button className={btnStyle}>
+                    </a>
+                    <button 
+                        className={btnStyle}
+                        onClick={shwoModel}>
                         <div className={divStyle}>
                             <img src={!darkMode ? reportIcon : darkReportIcon} alt="small res report icon" className='h-10 w-10'/>
                             <p>Sample report</p>

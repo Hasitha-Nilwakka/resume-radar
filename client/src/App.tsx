@@ -1,6 +1,6 @@
 import ResumeSection from "./components/ResumeSection"
 import JobDescription from "./components/JobDescription"
-import { useCallback, useReducer} from "react"
+import { useCallback, useReducer, useState} from "react"
 import type { ChangeEvent } from "react"
 import { initialState, reducer } from "./store/formReducer"
 import useFileParser from "./hooks/useFileParser"
@@ -12,12 +12,16 @@ import ScanningOverlay from "./components/ScanningOverlay"
 import pdfIcon from './assets/pdf-icon.svg'
 import docxIcon from './assets/docx-icon.svg'
 import AnalyzeButton from "./components/AnalyzeButton"
-
+import SampleReport from "./components/SampleReport"
+import ConfirmModal from "./components/ConfirmModal"
+import useSampleReport from "./hooks/useSampleReport"
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const {text, loading, error, fileType} = useFileParser(state.resume)
   const {result, analyzerLoading, analyzeError, analyze} = useAnalyzer({resumeText : text, jobDescription : state.description})
+  const [showModal, setShowModal] = useState(false)
+  const {phase, startDemo, resetDemo} = useSampleReport()
 
   const handleJdChange = useCallback((e : ChangeEvent<HTMLTextAreaElement>) => {
     dispatch({type : 'JOB_DESCRIPTION', content : e.target.value})
@@ -28,10 +32,21 @@ function App() {
     dispatch({type : 'RESUME_FILE', content : file})
   }, [])
 
+  const handleConfirmShowReport = () => {
+    setShowModal(false)
+    startDemo()
+  }
+
   return (
     <div className="2xl:w-[80%] mx-auto bg-white dark:bg-black pb-20 min-h-screen">
+      {showModal && <ConfirmModal onConfirm={handleConfirmShowReport} onCancel={() => setShowModal(false)}/>}
+      {phase === 'scanning' && 
+      <div className="fixed inset-0 w-screen h-screen bg-white/90 dark:bg-black transition-colors duration-300 z-55 flex justify-center items-center">
+            <ScanningOverlay/>
+      </div>}
+      {phase === 'results' && <SampleReport closeReport={resetDemo}/>}
       <div>
-        <NavBar/>
+        <NavBar showReport={() => setShowModal(true)}/>
       </div>
       <div className="mx-auto">
           <HeroSection/>
@@ -63,7 +78,7 @@ function App() {
           </div>
         </div>
       <div>
-      <AnalyzeButton analyze={analyze}/>
+      <AnalyzeButton onClick={analyze} text="START ANALYSIS"/>
         {analyzeError && <p className="text-red-500">An error occured while handling your request, please try again</p>}
         {analyzerLoading? 
           <div className="fixed inset-0 w-screen h-screen bg-white/90 dark:bg-black transition-colors duration-300 z-55 flex justify-center items-center">
