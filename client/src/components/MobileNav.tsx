@@ -5,7 +5,6 @@ import darkReportIcon from '../assets/darkmode/dark-report-icon.svg'
 import lightModeIcon from '../assets/light-mode-icon.svg'
 import darkModeIcon from '../assets/dark-mode-icon.svg'
 import { useTheme } from '../context/ThemeContext'
-import { useCallback } from 'react'
 
 interface MobileNavProps {
     hidden : boolean,
