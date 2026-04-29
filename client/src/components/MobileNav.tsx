@@ -5,6 +5,7 @@ import darkReportIcon from '../assets/darkmode/dark-report-icon.svg'
 import lightModeIcon from '../assets/light-mode-icon.svg'
 import darkModeIcon from '../assets/dark-mode-icon.svg'
 import { useTheme } from '../context/ThemeContext'
+import { useCallback } from 'react'
 
 interface MobileNavProps {
     hidden : boolean,
@@ -14,6 +15,16 @@ interface MobileNavProps {
 
 export default function MobileNav({hidden, setHidden, shwoModel} : MobileNavProps) {
     const {darkMode, flipDarkMode} = useTheme()
+
+    const handleDarmModeBtnClick = () => {
+        setHidden(true)
+        flipDarkMode()
+    }
+
+    const handleSampleReportBtnClick = () => {
+        setHidden(true)
+        shwoModel()
+    }
 
     const btnStyle : string = `
         text-theme-pink dark:text-dark-bright-green text-lg font-semibold
@@ -55,7 +66,7 @@ export default function MobileNav({hidden, setHidden, shwoModel} : MobileNavProp
                     </a>
                     <button 
                         className={btnStyle}
-                        onClick={shwoModel}>
+                        onClick={handleSampleReportBtnClick}>
                         <div className={divStyle}>
                             <img src={!darkMode ? reportIcon : darkReportIcon} alt="small res report icon" className='h-10 w-10'/>
                             <p>Sample report</p>
@@ -63,7 +74,7 @@ export default function MobileNav({hidden, setHidden, shwoModel} : MobileNavProp
                     </button>
                     <button 
                     className={`${btnStyle} py-3.5`}
-                    onClick={flipDarkMode}>
+                    onClick={handleDarmModeBtnClick}>
                     <div className={divStyle}>
                         <img src={!darkMode ? darkModeIcon : lightModeIcon} alt="small red dark and light icon" className='h-7 w-7'/>
                         <p>{!darkMode ? 'Dark Mode' : 'Light Mode'}</p>
