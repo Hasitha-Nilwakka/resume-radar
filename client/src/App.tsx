@@ -15,11 +15,12 @@ import AnalyzeButton from "./components/AnalyzeButton"
 import SampleReport from "./components/SampleReport"
 import ConfirmModal from "./components/ConfirmModal"
 import useSampleReport from "./hooks/useSampleReport"
+import ErrorScreen from "./components/ErrorScreen"
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const {text, loading, error, fileType} = useFileParser(state.resume)
-  const {result, analyzerLoading, analyzeError, analyze} = useAnalyzer({resumeText : text, jobDescription : state.description})
+  const {result, analyzerLoading, analyzeError, analyze, clearError} = useAnalyzer({resumeText : text, jobDescription : state.description})
   const [showModal, setShowModal] = useState(false)
   const {phase, startDemo, resetDemo} = useSampleReport()
 
@@ -78,8 +79,8 @@ function App() {
           </div>
         </div>
       <div>
-      <AnalyzeButton onClick={analyze} text="START ANALYSIS"/>
-        {analyzeError && <p className="text-red-500">An error occured while handling your request, please try again</p>}
+      <AnalyzeButton onClick={analyze} text="START ANALYSIS" disabled={state.description === '' || state.resume === null}/>
+        {analyzeError && <ErrorScreen setShowError={clearError}/>}
         {analyzerLoading? 
           <div className="fixed inset-0 w-screen h-screen bg-white/90 dark:bg-black transition-colors duration-300 z-55 flex justify-center items-center">
             <ScanningOverlay/>

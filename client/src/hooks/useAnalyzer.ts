@@ -11,6 +11,7 @@ interface AnalyzerResult {
     analyzerLoading : boolean
     analyzeError : string | null
     analyze : () => void
+    clearError : () => void
 }
 
 interface AnalyzerState {
@@ -27,6 +28,10 @@ const initialState : AnalyzerState = {
 
 export default function useAnalyzer(input : AnalyzerInput) : AnalyzerResult {
     const [state, setState] = useState(initialState)
+
+    const clearError = () => {
+        setState(prev => ({...prev, error : null}))
+    }
 
     const analyze = async () => {
         if (!input.resumeText || !input.jobDescription) {
@@ -53,5 +58,5 @@ export default function useAnalyzer(input : AnalyzerInput) : AnalyzerResult {
         }
     }
 
-    return {result : state.result, analyzerLoading : state.loading, analyzeError : state.error, analyze : analyze}
+    return {result : state.result, analyzerLoading : state.loading, analyzeError : state.error, analyze : analyze, clearError : clearError}
 }

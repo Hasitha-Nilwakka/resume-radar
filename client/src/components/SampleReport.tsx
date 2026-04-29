@@ -26,7 +26,7 @@ export default function SampleReport({closeReport} : SampleReportProps) {
             </div>
             <ResultPanel {...mockData}/>
             <div className="flex justify-center">
-                <AnalyzeButton onClick={closeReport} text="Try with your data"/>
+                <AnalyzeButton disabled={false} onClick={closeReport} text="Try with your data"/>
             </div>
         </div>,
         document.body
